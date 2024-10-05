@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 import random
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Required for session management
 
-# Your bird data dictionary
+# Bird data
 birds = {
     "Javan myna": "Acridotheres javanicus",
     "Common myna": "Acridotheres tristis",
@@ -38,9 +39,8 @@ birds = {
 
 latin_to_common = {v: k for k, v in birds.items()}
 
-# Function to get etymology (you can expand this)
-def get_etymology(latin_name):
-    etymology_dict = {
+# Etymology explanations for the Latin names
+latin_name_etymology = {
     "Acridotheres javanicus": "Acridotheres means 'grasshopper hunter', from Greek akris (grasshopper) and theres (hunter), referring to its insect-eating habits. Javanicus refers to its origin in Java.",
     "Acridotheres tristis": "Acridotheres means 'grasshopper hunter', from Greek akris (grasshopper) and theres (hunter). Tristis means 'sad' in Latin, likely referring to the bird's melancholic call.",
     "Aegithina tiphia": "Aegithina refers to a genus of small birds and is derived from the Greek aegithalos (titmouse), denoting small, agile birds. Tiphia is a classical Latin term for a type of small songbird.",
@@ -70,43 +70,60 @@ def get_etymology(latin_name):
     "Todiramphus chloris": "Todiramphus comes from Greek todis (kingfisher) and ramphos (beak), meaning 'sharp-beaked kingfisher'. Chloris is Greek for 'green', referring to the bird’s green plumage.",
     "Treron vernans": "Treron is Greek for 'pigeon'. Vernans comes from the Latin vernare, meaning 'to flourish or grow green', likely referencing the bird’s vibrant green feathers.",
 }
-    return etymology_dict.get(latin_name, "Etymology not found.")
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    if request.method == 'POST':
-        answer = request.form.get('answer')
-        question = request.form.get('question')
-        correct_latin = request.form.get('correct_latin')
-        score = request.form.get('score', 0)
-        results = request.form.getlist('results')
+    session['score'] = 0  # Initialize score
+    session['question_count'] = 0  # Initialize question count
+    return render_template('index.html')
 
-        # Update score and results based on the answer
-        if answer == correct_latin:
-            score = int(score) + 1
-            results.append(f"Correct! '{correct_latin}' means: {get_etymology(correct_latin)}")
-        else:
-            selected_common = latin_to_common.get(answer)
-            results.append(f"Wrong. You selected '{answer}', which is the Latin name of '{selected_common}'. The correct Latin name of '{question}' is '{correct_latin}' and it means: {get_etymology(correct_latin)}")
-        
-        # If 10 questions are reached, show the results
-        if len(results) == 10:
-            return render_template('index.html', question=None, options=None, score=score, results=results)
-        
-        # Prepare the next question
-        bird_items = list(birds.items())
-        common_name, correct_latin = random.choice(bird_items)
-        options = random.sample(list(birds.values()), 2) + [correct_latin]
-        random.shuffle(options)
+@app.route('/quiz')
+def quiz():
+    if session['question_count'] >= 10:
+        return jsonify({'finished': True, 'score': session['score']})
 
-        return render_template('index.html', question=common_name, options=options, score=score, results=results)
+    common_name, correct_latin = random.choice(list(birds.items()))
+    options = generate_options(correct_latin)
+    session['current_question'] = {
+        'common_name': common_name,
+        'correct_latin': correct_latin
+    }
+    session['question_count'] += 1
+    return jsonify({
+        'common_name': common_name,
+        'options': options,
+        'correct_latin': correct_latin
+    })
 
-    # Start a new quiz
-    bird_items = list(birds.items())
-    common_name, correct_latin = random.choice(bird_items)
-    options = random.sample(list(birds.values()), 2) + [correct_latin]
+def generate_options(correct_latin):
+    incorrect_latin = random.sample([name for name in birds.values() if name != correct_latin], 2)
+    options = [correct_latin] + incorrect_latin
     random.shuffle(options)
-    return render_template('index.html', question=common_name, options=options, score=None, results=None)
+    return options
+
+@app.route('/check_answer', methods=['POST'])
+def check_answer():
+    data = request.json
+    selected_latin = data['selected_latin']
+    correct_latin = session['current_question']['correct_latin']
+    common_name = session['current_question']['common_name']
+    response = {}
+
+    if selected_latin == correct_latin:
+        session['score'] += 1  # Increment score
+        etymology = latin_name_etymology.get(correct_latin, "")
+        response['correct'] = True
+        response['message'] = f"Correct! {etymology}"
+    else:
+        selected_common = latin_to_common[selected_latin]
+        response['correct'] = False
+        response['message'] = f"Wrong! \n '{selected_latin}' refers to the {selected_common}. \n The answer is '{correct_latin}'."
+
+    return jsonify(response)
+
+@app.route('/final_score')
+def final_score():
+    return jsonify({'score': session['score']})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
