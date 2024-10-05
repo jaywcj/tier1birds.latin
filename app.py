@@ -78,6 +78,12 @@ latin_name_etymology = {
     "Treron vernans": "Treron is Greek for 'pigeon'. Vernans comes from the Latin vernare, meaning 'to flourish or grow green', likely referencing the bird’s vibrant green feathers.",
 }
 
+@app.route('/')
+def index():
+    session['score'] = 0  # Initialize score
+    session['question_count'] = 0  # Initialize question count
+    return render_template('index.html')
+
 @app.route('/quiz')
 def quiz():
     if session['question_count'] >= 10:
@@ -96,7 +102,35 @@ def quiz():
         'correct_latin': correct_latin
     })
 
-# Other existing functions...
+def generate_options(correct_latin):
+    incorrect_latin = random.sample([name for name in birds.values() if name != correct_latin], 2)
+    options = [correct_latin] + incorrect_latin
+    random.shuffle(options)
+    return options
+
+@app.route('/check_answer', methods=['POST'])
+def check_answer():
+    data = request.json
+    selected_latin = data['selected_latin']
+    correct_latin = session['current_question']['correct_latin']
+    common_name = session['current_question']['common_name']
+    response = {}
+
+    if selected_latin == correct_latin:
+        session['score'] += 1  # Increment score
+        etymology = latin_name_etymology.get(correct_latin, "")
+        response['correct'] = True
+        response['message'] = f"Correct! {etymology}"
+    else:
+        selected_common = latin_to_common[selected_latin]
+        response['correct'] = False
+        response['message'] = f"Wrong! \n '{selected_latin}' refers to the {selected_common}. \n The answer is '{correct_latin}'."
+
+    return jsonify(response)
+
+@app.route('/final_score')
+def final_score():
+    return jsonify({'score': session['score']})
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Get the port from the environment variable, default to 5000
