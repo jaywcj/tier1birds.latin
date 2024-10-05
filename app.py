@@ -50,7 +50,7 @@ latin_name_etymology = {
     "Aplonis panayensis": "Aplonis refers to a genus of starlings, with Greek haploos (simple) and oninos (bird). Panayensis denotes its habitat on the island of Panay in the Philippines.",
     "Cinnyris jugularis": "Cinnyris is Greek for 'sunbird'. Jugularis is Latin for 'throated', referring to the bird's distinctive throat color.",
     "Columba livia": "Columba is Latin for 'dove'. Livia is derived from Latin, meaning 'bluish', which refers to the bluish-grey coloration of the rock pigeon.",
-    "Copsychus saularis": "Copsychus is from Greek kopsychos, meaning 'mimic', referring to its mimicking abilities. Saularis is Latin for 'of a hall or courtyard', a common place where the bird is seen.",
+    "Copsychus saularis": "Copsychus is from Greek kopsychos, meaning 'mimic', referring to its mimicking abilities. Saularis is a latinsation the Hindi word saulary which means a 'hundred songs'.",
     "Corvus macrorhynchos": "Corvus is Latin for 'crow'. Macrorhynchos is from Greek makros (large) and rhynchos (beak), meaning 'large-billed'.",
     "Corvus splendens": "Corvus means 'crow' in Latin. Splendens is Latin for 'shining', referring to the bird's glossy feathers.",
     "Dicaeum cruentatum": "Dicaeum refers to a genus of flowerpeckers, originating from the Greek dikaios (righteous). Cruentatum comes from Latin cruentus, meaning 'bloody', referring to the bird’s red color.",
