@@ -1,9 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-import random
+from flask import Flask
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Required for session management
 
+@app.route('/')
+def hello():
+    return "Hello, World!"
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Get the port from the environment variable, default to 5000
+    app.run(host='0.0.0.0', port=port)
+    
 # Bird data
 birds = {
     "Javan myna": "Acridotheres javanicus",
