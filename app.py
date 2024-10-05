@@ -43,7 +43,7 @@ latin_to_common = {v: k for k, v in birds.items()}
 latin_name_etymology = {
     "Acridotheres javanicus": "Acridotheres means 'grasshopper hunter', from Greek akris (grasshopper) and theres (hunter), referring to its insect-eating habits. Javanicus refers to its origin in Java.",
     "Acridotheres tristis": "Acridotheres means 'grasshopper hunter', from Greek akris (grasshopper) and theres (hunter). Tristis means 'sad' in Latin, likely referring to the bird's melancholic call.",
-    "Aegithina tiphia": "Aegithina refers to a genus of small birds and is derived from the Greek aegithalos (titmouse), denoting small, agile birds. Tiphia is a classical Latin term for a type of small songbird.",
+    "Aegithina tiphia": "The genus name Aegithina is from Ancient Greek aigithos or aiginthos, a mythical bird mentioned by Aristotle and other classical authors. The etymology of specific epithet tiphia is uncertain.",
     "Amaurornis phoenicurus": "Amaurornis comes from Greek amauro (dark, obscure) and ornis (bird), meaning 'hidden bird'. Phoenicurus comes from Greek phoinix (crimson) and oura (tail), meaning 'red-tailed'.",
     "Anthracoceros albirostris": "Anthracoceros combines Greek anthrax (coal) and keros (horn), meaning 'black-horned'. Albirostris comes from Latin albus (white) and rostrum (bill), meaning 'white-billed'.",
     "Anthreptes malacensis": "Anthreptes is derived from Greek anthos (flower) and ereptes (snatcher), and is a genus of sunbirds. Malacensis refers to the bird's origin in Malaya.",
