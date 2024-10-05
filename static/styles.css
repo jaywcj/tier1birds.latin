@@ -1,0 +1,95 @@
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f8f9fa;  /* Softer background color */
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 40px;  /* Increased padding for a more spacious layout */
+    border-radius: 15px;  /* Rounded corners for a softer look */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);  /* Softer shadow */
+    text-align: center;  /* Center text for a modern look */
+}
+
+h1 {
+    font-size: 2.5em;  /* Increased font size */
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.question {
+    font-size: 1.8em;  /* Increased font size for the question */
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.option-btn {
+    display: block;
+    margin: 10px 0;
+    padding: 15px;  /* Increased padding for buttons */
+    width: 100%;
+    border: none;
+    border-radius: 8px;  /* Slightly more rounded corners */
+    background-color: #007BFF;  /* Primary button color */
+    color: white;
+    font-size: 1.2em;  /* Increased font size for button text */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;  /* Added transform for modern feel */
+}
+
+.option-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);  /* Slight scaling on hover for a modern effect */
+}
+
+.next-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;  /* Rounded corners */
+    background-color: #28a745;  /* Green color for the next button */
+    color: white;
+    font-size: 1.2em;  /* Increased font size for button text */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;  /* Added transform for modern feel */
+    float: right;  /* Align button to the right */
+}
+
+.next-btn:hover {
+    background-color: #218838;  /* Darker green on hover */
+    transform: scale(1.05);  /* Slight scaling on hover for a modern effect */
+}
+
+.option-btn:active {
+    transform: scale(0.95);  /* Scale down the button slightly when clicked */
+    background-color: #0056b3;  /* Darken the background color to indicate selection */
+}
+
+.correct {
+    background-color: #28a745;  /* Green for correct answer */
+    color: white;
+    transform: scale(1.05);  /* Slightly scale up for emphasis */
+    transition: transform 0.3s, background-color 0.3s;  /* Smooth transition */
+}
+
+.wrong {
+    background-color: #dc3545;  /* Red for wrong answer */
+    color: white;
+    transform: scale(1.05);  /* Slightly scale up for emphasis */
+    transition: transform 0.3s, background-color 0.3s;  /* Smooth transition */
+}
+
+.result {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.2em;  /* Increased font size for results */
+    color: #555;
+}

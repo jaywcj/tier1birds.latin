@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tier 1 Birds</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Tier 1 Birds</h1>
+        <div id="question" class="question"></div>
+        <div id="options" class="options"></div>
+        <div id="result" class="result"></div>
+        <button id="next" class="next-btn">Next Question</button>
+    </div>
+
+    <script>
+        let correct_latin, common_name;
+
+        async function fetchQuestion() {
+            const response = await fetch('/quiz');
+            const data = await response.json();
+
+            if (data.finished) {
+                const finalResponse = await fetch('/final_score');
+                const finalData = await finalResponse.json();
+                document.getElementById('question').innerText = `Quiz Finished! You scored ${finalData.score} out of 10.`;
+                document.getElementById('options').innerHTML = '';
+                document.getElementById('next').style.display = 'none'; // Hide next button
+                return;
+            }
+
+            common_name = data.common_name;
+            correct_latin = data.correct_latin;
+            document.getElementById('question').innerText = `What is the Latin name of '${common_name}'?`;
+            const optionsHtml = data.options.map((option) => 
+                `<button class="option-btn" onclick="checkAnswer('${option}')">${option}</button>`).join('');
+            document.getElementById('options').innerHTML = optionsHtml;
+            document.getElementById('result').innerText = '';
+        }
+
+        async function checkAnswer(selected_latin) {
+            const response = await fetch('/check_answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ selected_latin }),
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = data.message;
+        }
+
+        document.getElementById('next').addEventListener('click', fetchQuestion);
+
+        // Fetch the first question when the page loads
+        fetchQuestion();
+    </script>
+</body>
+</html>
