@@ -69,6 +69,7 @@ latin_name_etymology = {
     "Spilopelia chinensis": "Spilopelia combines Greek spilos (spot) and peleia (dove), meaning 'spotted dove'. Chinensis refers to China, where the species is found.",
     "Todiramphus chloris": "Todiramphus comes from Greek todis (kingfisher) and ramphos (beak), meaning 'sharp-beaked kingfisher'. Chloris is Greek for 'green', referring to the bird’s green plumage.",
     "Treron vernans": "Treron is Greek for 'pigeon'. Vernans comes from the Latin vernare, meaning 'to flourish or grow green', likely referencing the bird’s vibrant green feathers.",
+    "Yungipicus moluccensis": "The genus name likely combines 'yung' meaning 'young' or 'small' and 'picus', which is Latin for 'woodpecker'. The Latin name Moluccas refers to an island group in Indonesia.",
 }
 
 @app.route('/')
